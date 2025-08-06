@@ -10,15 +10,15 @@ public class Temperatura {
     private static final double TEMPERATURA_MINIMA_CELSIUS = -273.15;
 
     public Temperatura(double celsius) {
-        if (celsius < TEMPERATURA_MINIMA_CELSIUS){
-            System.out.println("Temperatura inválida.");
-            System.out.println("Convertendo do valor para o \"zero absoluto\"(-273.15 ºC)...");
-            this.celsius = TEMPERATURA_MINIMA_CELSIUS;
-        } else{
-            this.celsius = celsius;
-        }
+        verificarTemperatura(celsius);
+        this.celsius = celsius;
     }
 
+    private void verificarTemperatura(double celsius){
+        if (celsius < TEMPERATURA_MINIMA_CELSIUS) {
+            throw new IllegalArgumentException("Temperatura inválida. A menor temperatura em celsius é = " + TEMPERATURA_MINIMA_CELSIUS + "°C");
+        }
+    }
     public double celsiusParaFahrenheit() {
         return (this.celsius * 9 / 5) + 32;
     }
@@ -32,6 +32,7 @@ public class Temperatura {
     }
 
     public void setCelsius(double celsius) {
+        verificarTemperatura(celsius);
         this.celsius = celsius;
     }
 }

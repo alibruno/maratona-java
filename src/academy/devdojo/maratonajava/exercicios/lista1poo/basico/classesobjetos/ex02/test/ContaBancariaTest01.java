@@ -1,6 +1,7 @@
 package academy.devdojo.maratonajava.exercicios.lista1poo.basico.classesobjetos.ex02.test;
 
 import academy.devdojo.maratonajava.exercicios.lista1poo.basico.classesobjetos.ex02.dominio.ContaBancaria;
+import academy.devdojo.maratonajava.exercicios.lista1poo.basico.classesobjetos.ex02.dominio.SaldoInsuficienteException;
 
 import java.util.Locale;
 import java.util.Scanner;
@@ -20,12 +21,20 @@ public class ContaBancariaTest01 {
                 case 1:
                     System.out.println("Digite a quantia do deposito:");
                     double deposito = input.nextDouble();
-                    contaBancaria.depositar(deposito);
+                    try {
+                        contaBancaria.depositar(deposito);
+                    } catch (IllegalArgumentException e) {
+                        System.out.println(e.getMessage());
+                    }
                     break;
                 case 2:
                     System.out.println("Digite a quantia de saque:");
                     double saque = input.nextDouble();
-                    contaBancaria.sacar(saque);
+                    try {
+                        contaBancaria.sacar(saque);
+                    } catch (IllegalArgumentException | SaldoInsuficienteException e) {
+                        System.out.println(e.getMessage());
+                    }
                     break;
                 case 3:
                     System.out.println("O seu saldo é: " + contaBancaria.consultarSaldo());

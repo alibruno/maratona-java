@@ -1,0 +1,6 @@
+2025-08-23T17:05:15  [INFO] Usuário 'admin' logado com sucesso.
+2025-08-24T12:01:12  [FATAL] Falha ao conectar ao banco de dados.
+2025-08-24T22:31:04  [ERROR] Tentativa de login falhou para o usuário 'guest1'.
+2025-08-25T01:14:53  [ERROR] Tentativa de login falhou para o usuário 'guest2'.
+2025-08-25T01:14:55  Tentativa de login falhou para o usuário 'guest3'.
+[ERROR] Tentativa de login falhou para o usuário 'guest4'.

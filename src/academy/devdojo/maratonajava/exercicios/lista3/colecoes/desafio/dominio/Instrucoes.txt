@@ -1,0 +1,35 @@
+Sistema de Gerenciamento de Biblioteca
+
+Descrição: Projete e implemente um sistema de gerenciamento para o acervo de uma pequena biblioteca.
+
+    Modelagem (OOP): Crie uma classe Livro com atributos isbn (String), titulo (String) e autor (String).
+
+    Estrutura de Dados: A classe principal, Biblioteca, deve usar as seguintes estruturas de dados,
+    cada uma escolhida por um motivo específico:
+
+        Map<String, Livro>: Para o acervo principal, onde a chave é o ISBN do livro. Esta escolha permite
+        uma busca ultra-rápida ($O(1)$) por um livro específico usando seu identificador único.
+
+        Set<Livro>: Para controlar os livros que estão atualmente emprestados. O uso de um Set garante que
+        um mesmo objeto Livro não possa ser listado como emprestado duas vezes ao mesmo tempo.
+
+        Map<String, List<Livro>>: Para rastrear o histórico de empréstimos por usuário. A chave é um
+        identificador do usuário (String) e o valor é uma lista de todos os livros que ele já pegou emprestado.
+
+        Funcionalidades:
+
+            adicionarLivro(Livro livro): Adiciona um livro ao acervo.
+
+            pesquisarPorTitulo(String titulo): Retorna uma List<Livro> com todos os livros que contêm a string
+            pesquisada em seu título.
+
+            emprestarLivro(String isbn, String idUsuario): Move um livro do acervo principal para o conjunto de
+            emprestados e registra a operação no histórico do usuário. Deve lançar uma exceção
+            customizada (ex: LivroIndisponivelException) se o livro não for encontrado no acervo ou se já estiver
+            na lista de emprestados.
+
+            devolverLivro(String isbn): Move o livro do conjunto de emprestados de volta para o acervo principal.
+
+Objetivo: Integrar List, Set e Map em um único projeto coeso. Este desafio força você a pensar criticamente sobre o
+ciclo de vida dos dados e a escolher a estrutura de dados correta para cada requisito funcional específico, simulando
+o tipo de decisão de design que engenheiros de software tomam diariamente.

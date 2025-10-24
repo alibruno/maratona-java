@@ -1,0 +1,33 @@
+Seção 2.3: Desafio de Tópico - Repositório de Dados Genérico (Padrão DAO)
+
+    Descrição: Crie um sistema de repositório genérico para gerenciar entidades em memória, simulando um
+    Data Access Object (DAO).
+
+        Interface Entidade<T>: Crie uma interface genérica Entidade<T> que define um único método: T getId().
+        O tipo T representa o tipo do identificador da entidade.
+
+        Classes de Modelo: Crie duas classes simples que implementam esta interface:
+
+            Usuario implements Entidade<Integer> (com atributos id (Integer), nome).
+
+            Produto implements Entidade<String> (com atributos codigo (String), descricao).
+
+        Classe Repositorio<T extends Entidade>: Crie uma classe genérica Repositorio<T>. Ela deve ser restrita a tipos
+        que implementam a interface Entidade (<T extends Entidade>). Internamente, use um Map<Object, T> para armazenar
+        as entidades, onde a chave é o ID da entidade (obtido via getId()) e o valor é a própria entidade.
+
+        Funcionalidades do Repositório:
+
+            adicionar(T entidade): Adiciona uma entidade ao mapa.
+
+            buscarPorId(ID id): Busca uma entidade pelo seu ID. Note que o tipo do ID, ID, também precisa ser genérico.
+            Você precisará refinar a assinatura da sua classe para Repositorio<T extends Entidade<ID>, ID>.
+
+            listarTodos(): Retorna uma Collection<T> com todas as entidades armazenadas.
+
+            remover(ID id): Remove uma entidade do mapa com base no seu ID.
+
+    Objetivo: Simular um padrão de design do mundo real (DAO) usando Generics para criar um componente de persistência
+    em memória que seja completamente reutilizável e com total segurança de tipo. Este desafio integra classes genéricas,
+    bounded types, múltiplos parâmetros de tipo e o uso de Collections, representando um nível avançado de aplicação de
+    Generics.

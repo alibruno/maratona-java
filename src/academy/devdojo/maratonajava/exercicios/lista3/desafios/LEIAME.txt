@@ -1,0 +1,7 @@
+Parte III: Desafios Finais de Integração
+
+Chegamos aos projetos de "capstone". Estes não são apenas exercícios; são pequenas simulações de projetos de software que
+exigem a integração de todos os seis módulos que você estudou: Lógica de Programação, Programação Orientada a Objetos,
+Tratamento de Exceções, Classes Utilitárias, Collections e Generics. O foco aqui não é apenas na implementação de uma
+funcionalidade isolada, mas no design da solução como um todo, na forma como as diferentes partes da linguagem Java se
+unem para construir uma aplicação coesa e funcional.

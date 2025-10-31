@@ -1,0 +1,22 @@
+data,descricao,valor,categoria
+2023-08-15,Pagamento Spotify,-29.90,ASSINATURAS
+2023-08-20,Salário,+3500.00,RECEITA
+2023-08-22,Supermercado Carrefour,-245.37,ALIMENTAÇÃO
+2023-08-23,Uber para o trabalho,-18.60,TRANSPORTE
+2023-08-24,Conta de luz Enel,-132.45,MORADIA
+2023-08-25,Netflix,-39.90,ASSINATURAS
+2023-08-26,Compra no iFood,-67.80,ALIMENTAÇÃO
+2023-08-27,Depósito de João,+200.00,TRANSFERÊNCIAS
+2023-08-28,Gasolina Shell,-150.00,TRANSPORTE
+2023-08-30,Internet Vivo,-119.99,MORADIA
+2023-09-01,Aluguel apartamento,-1200.00,MORADIA
+2023-09-03,Compra Mercado Livre,-89.90,COMPRAS
+2023-09-04,Cinema Shopping,-45.00,LAZER
+2023-09-05,Restaurante Outback,-150.50,ALIMENTAÇÃO
+2023-09-07,Mensalidade academia,-99.90,SAÚDE
+2023-09-10,Remédio Drogasil,-38.75,SAÚDE
+2023-09-12,Presente aniversário,-120.00,COMPRAS
+2023-09-13,Freelance site,+800.00,RECEITA
+2023-09-14,Café Starbucks,-17.50,ALIMENTAÇÃO
+2023-09-15,Compra Steam,-59.90,LAZER
+2023-08-15,Pagamento Spotify,-29.90,ASSINATURAS

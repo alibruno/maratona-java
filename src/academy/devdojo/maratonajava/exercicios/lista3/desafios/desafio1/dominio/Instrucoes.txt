@@ -1,0 +1,62 @@
+Seção 3.1: Grande Desafio 1 - Analisador de Dados Bancários
+
+    Descrição do Problema: Você recebeu um arquivo de texto no formato CSV (transacoes.csv) contendo o extrato bancário
+    de um cliente. Sua tarefa é criar uma aplicação de console que leia este arquivo, processe os dados e exiba um
+    relatório analítico detalhado.
+
+    Formato do CSV: data,descricao,valor,categoria
+
+        Exemplo de linha: 2023-08-15,Pagamento Spotify,-29.90,ASSINATURAS
+
+    Requisitos de Integração:
+
+        Lógica de Programação: Implementar a lógica central para ler o arquivo, pular a linha do cabeçalho, e processar
+        cada linha subsequente dentro de um loop.
+
+        IO / Scanner: Use java.io.BufferedReader para ler o arquivo linha a linha, que é eficiente para arquivos grandes.
+        Para cada linha, use String.split(",") para extrair os quatro campos (tokens).
+
+        Exceções: O tratamento de erros deve ser robusto.
+
+            Use um bloco try-catch para FileNotFoundException caso o arquivo transacoes.csv não seja encontrado.
+
+            Dentro do loop de processamento, envolva a conversão de cada linha em um try-catch para lidar com linhas
+            malformadas. Capture NumberFormatException (se o valor não for um número válido) e
+            DateTimeParseException (se a data não estiver no formato esperado yyyy-MM-dd). Linhas inválidas devem ser
+            puladas, e uma mensagem de erro deve ser registrada no console, sem interromper o processamento do restante
+            do arquivo.
+
+            Crie uma exceção customizada, CategoriaInvalidaException. Use um Enum para definir as categorias
+            válidas (ex: ALIMENTACAO, TRANSPORTE, LAZER, ASSINATURAS, OUTROS). Se a categoria lida do arquivo não
+            corresponder a nenhuma das constantes do Enum, lance sua exceção.
+
+        OOP: Modele os dados de forma limpa. Crie uma classe Transacao com atributos LocalDate data, String descricao,
+        BigDecimal valor e Categoria categoria (o Enum). O uso de BigDecimal para valores monetários é uma prática
+        profissional crucial para evitar problemas de arredondamento inerentes a double e float.
+
+        Classes Utilitárias:
+
+            Use java.time.LocalDate e DateTimeFormatter para fazer o parsing das strings de data para objetos de data.
+
+            Use java.math.BigDecimal para representar e manipular os valores monetários.
+
+            No relatório final, use java.text.NumberFormat para formatar os valores BigDecimal para a moeda
+            local (ex: R$ 29,90).
+
+        Collections:
+
+            Armazene todos os objetos Transacao válidos em um List<Transacao>.
+
+            Para gerar o relatório, implemente métodos que usem Map para agregar os dados:
+
+                Map<Categoria, BigDecimal> calcularTotalPorCategoria(): Este método deve iterar pela lista de transações
+                e calcular o valor total gasto em cada categoria.
+
+                Map<String, Long> contarTransacoesPorDescricao(): Este método deve contar quantas vezes cada descrição
+                de transação única aparece no extrato.
+
+        Generics (Opcional, mas recomendado): Para um desafio extra, crie um método utilitário genérico
+        public <K, T> Map<K, List<T>> agruparPor(List<T> lista, Function<T, K> extratorChave). Este método deve ser
+        capaz de agrupar qualquer lista de objetos por um critério definido pela função extratorChave. Você pode então
+        usá-lo para agrupar as transações por categoria de forma elegante. (Nota: Isso antecipa a funcionalidade da
+        API de Streams, mas implementá-lo manualmente é um excelente exercício de Generics).

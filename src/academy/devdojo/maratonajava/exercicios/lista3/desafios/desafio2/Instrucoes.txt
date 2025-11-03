@@ -1,0 +1,66 @@
+Seção 3.2: Grande Desafio 2 - Sistema de Inscrição em Eventos com Persistência
+
+    Descrição do Problema: Desenvolver um sistema de console para gerenciar eventos (como palestras e workshops) e as
+    inscrições de participantes. Uma característica crucial é que o estado do sistema (eventos e inscrições) deve ser
+     salvo em um arquivo para que os dados não sejam perdidos quando a aplicação for fechada e reaberta.
+
+    Requisitos de Integração:
+
+        OOP: Projete um sistema de classes robusto e bem encapsulado:
+
+            Participante (com atributos nome, email).
+
+            Evento (com nome, data, local, capacidadeMaxima, e uma coleção para armazenar os participantes inscritos).
+
+            SistemaEventos (a classe principal que orquestra todas as operações e contém a lógica de negócio).
+
+        Collections: A escolha das coleções é fundamental para a funcionalidade e performance.
+
+            Na classe SistemaEventos, use um Map<Integer, Evento> para armazenar todos os eventos criados. O uso de um
+            ID inteiro único como chave permite acesso e manipulação rápidos de eventos específicos.
+
+            Na classe Evento, use um Set<Participante> para a lista de inscritos. A escolha de um Set garante
+            automaticamente que um mesmo participante não possa se inscrever duas vezes no mesmo evento. Se você usar um
+            TreeSet, a lista de participantes será sempre exibida em ordem alfabética (exigindo que Participante
+            implemente Comparable).
+
+        Exceções: Crie e utilize exceções customizadas para impor as regras de negócio do sistema:
+
+            EventoLotadoException: Deve ser lançada ao tentar inscrever um participante em um evento que já atingiu sua
+            capacidade máxima.
+
+            ParticipanteJaInscritoException: Deve ser lançada se um participante tentar se inscrever em um evento no
+            qual ele já está na lista de inscritos.
+
+            EventoNaoEncontradoException: Deve ser lançada ao tentar realizar uma operação (como inscrever um
+            participante) em um evento com um ID que não existe no sistema.
+
+        Generics: Crie uma classe de serviço genérica, ServicoNotificacao<T>, que possa, em teoria, enviar notificações
+        para diferentes tipos de entidades. Por exemplo, uma instância ServicoNotificacao<Participante> poderia ter um
+        método enviarConfirmacao(Participante p) que simula o envio de um e-mail de confirmação de inscrição. Isso
+        demonstra como Generics podem ser usados para criar componentes de serviço reutilizáveis e com segurança de tipo.
+
+        Classes Utilitárias:
+
+            Scanner: Use a classe Scanner para criar um menu interativo no console, permitindo que o usuário escolha
+            ações como: 1. Criar Evento, 2. Inscrever Participante, 3. Listar Eventos, 4. Salvar e Sair.
+
+            java.time: Use LocalDateTime para representar a data e a hora dos eventos com precisão.
+
+            ResourceBundle: Internacionalize as mensagens do sistema. Crie dois arquivos de
+            propriedades (messages_pt_BR.properties e messages_en_US.properties). O sistema deve ser capaz de carregar
+            um desses arquivos para exibir todas as mensagens do menu e de status em português ou inglês, dependendo da
+            configuração do locale.
+
+        IO / Serialization:
+
+            Implemente a funcionalidade de "Salvar". Use ObjectOutputStream para serializar o objeto principal que
+            contém o estado do sistema (o Map<Integer, Evento>) para um arquivo binário (ex: eventos.dat).
+
+            Implemente a funcionalidade de "Carregar". No início da aplicação, o sistema deve verificar se o arquivo
+            eventos.dat existe. Se existir, ele deve usar ObjectInputStream para desserializar o mapa e carregar o
+            estado salvo anteriormente, permitindo a continuidade das operações.
+
+            Para que a serialização funcione corretamente, todas as classes cujos objetos serão salvos (Evento,
+            Participante, etc.) devem implementar a interface marcadora java.io.Serializable. Este é um detalhe técnico
+            crucial que você deve descobrir e implementar.

@@ -10,8 +10,12 @@ public class ComportamentoPorParametroTest03 {
     private static List<Car> cars = List.of(new Car("red", 2011), new Car("black", 2009), new Car("purple", 2015));
 
     public static void main(String[] args) {
-        List<Car> purpleCars = filter(cars, car -> car.getColor().equals("purple"));
-        List<Car> blackCars = filter(cars, car -> car.getColor().equals("black"));
+        // Outras sintaxes lambdas (menos comum):
+        List<Car> purpleCars = filter(cars, (Car car) -> car.getColor().equals("purple"));
+        List<Car> blackCars = filter(cars, car -> {
+            return car.getColor().equals("black");
+        });
+        // Sintaxe comum:
         List<Car> yearBeforeCars = filter(cars, car -> car.getYear() < 2012);
         System.out.println(purpleCars);
         System.out.println(blackCars);
@@ -20,6 +24,7 @@ public class ComportamentoPorParametroTest03 {
         System.out.println(filter(nums, num -> num % 2 == 1));
     }
 
+    // Predicate: interface funcional que recebe um tipo genérico e retorna boolean
     private static <T> List<T> filter(List<T> list, Predicate<T> predicate) {
         List<T> filteredList = new ArrayList<>();
         for (T e : list) {

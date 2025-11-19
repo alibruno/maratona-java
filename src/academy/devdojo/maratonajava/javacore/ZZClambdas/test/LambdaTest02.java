@@ -7,11 +7,13 @@ import java.util.function.Function;
 public class LambdaTest02 {
     public static void main(String[] args) {
         List<String> strings = List.of("Edward", "Alphonse");
-        List<Integer> integers = map(strings, (String s) -> s.length());
-        List<String> lowerCase = map(strings, s -> s.toLowerCase());
+        List<Integer> integers = map(strings, String::length);
+        List<String> lowerCase = map(strings, String::toLowerCase);
         System.out.println(integers);
         System.out.println(lowerCase);
     }
+    // Method reference: sintaxes que simplificam as lambdas
+    // lambda com 1 metodo -> method reference
 
     // Function<T, R>
     // <T> – the type of the input to the function

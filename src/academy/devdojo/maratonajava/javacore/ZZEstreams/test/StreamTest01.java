@@ -12,7 +12,7 @@ import java.util.List;
 // Coleções: elementos em espaço (dados/memória)
 // Streams: sequência de elementos (tempo - não guarda nada)
 
-public class StreamsTest01 {
+public class StreamTest01 {
     private static List<LightNovel> lightNovelList = new ArrayList<>(
             List.of(new LightNovel("test4", 3.50),
                     new LightNovel("test1", 4.90),

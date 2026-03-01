@@ -10,6 +10,10 @@ public class ProducerService {
         ProducerRepository.save(p);
     }
 
+    public static void saveTransaction(List<Producer> producers) {
+        ProducerRepository.saveTransaction(producers);
+    }
+
     public static void delete(Integer id) {
         requireValidId(id);
         ProducerRepository.delete(id);
@@ -30,12 +34,25 @@ public class ProducerService {
         ProducerRepository.update(p);
     }
 
+    public static void updatePreparedStatement(Producer producer) {
+        requireValidId(producer.getId());
+        ProducerRepository.updatePreparedStatement(producer);
+    }
+
     public static List<Producer> findAll() {
         return ProducerRepository.findAll();
     }
 
     public static List<Producer> findByName(String name) {
         return ProducerRepository.findByName(name);
+    }
+
+    public static List<Producer> findByNamePreparedStatement(String name) {
+        return ProducerRepository.findByNamePreparedStatement(name);
+    }
+
+    public static List<Producer> findByNameCallableStatement(String name) {
+        return ProducerRepository.findByNameCallableStatement(name);
     }
 
     public static void showProducerMetaData() {
@@ -46,7 +63,7 @@ public class ProducerService {
         ProducerRepository.showDriverMetaData();
     }
 
-    public static void showTypeScrollWorking(){
+    public static void showTypeScrollWorking() {
         ProducerRepository.showTypeScrollWorking();
     }
 

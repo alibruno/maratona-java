@@ -11,8 +11,14 @@ import java.util.stream.Collectors;
 
 @Log4j2
 public class ProducerRepository {
+    // Statement -> alterar os dados de um banco de dados
+    // Prepared statement ->
+    //      Maior perfomance (no Statement o sql precisa verificar a construção da query);
+    //      Pré compila a query;
+    //      Uso de Wild Card (?);
+    //      Protege contra o sql injection;
+
     public static void save(Producer p) {
-        // Statement -> alterar os dados de um banco de dados
         String sql = "INSERT INTO public.producer(\"name\") VALUES ('%s');".formatted(p.getName());
         try (Connection conn = ConnectionFactory.getConnection();
              Statement stmt = conn.createStatement()) {
@@ -20,6 +26,37 @@ public class ProducerRepository {
             log.info("Inserted producer '{}' in database, rows affected: '{}'", p.getName(), rowsAffected);
         } catch (SQLException e) {
             log.error("Error while trying to insert producer '{}'", p.getName(), e);
+        }
+    }
+
+    public static void saveTransaction(List<Producer> producers) {
+        try (Connection conn = ConnectionFactory.getConnection()) {
+            conn.setAutoCommit(false);
+            preparedStatementSaveTransaction(conn, producers);
+            conn.commit();
+            conn.setAutoCommit(true);
+        } catch (SQLException e) {
+            log.error("Error while trying to save producers '{}'", producers, e);
+        }
+    }
+
+    private static void preparedStatementSaveTransaction(Connection conn, List<Producer> producers) throws SQLException {
+        String sql = "INSERT INTO public.producer(\"name\") VALUES (?);";
+        boolean shouldRollback = false;
+        for (Producer p : producers) {
+            try (PreparedStatement ps = conn.prepareStatement(sql)) {
+                log.info("Saving producer '{}'", p.getName());
+                ps.setString(1, p.getName());
+//                if (p.getName().equals("White fox")) throw new SQLException("Can't save white fox");
+                ps.execute();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                shouldRollback = true;
+            }
+        }
+        if (shouldRollback) {
+            log.warn("Transaction is going be rollback");
+            conn.rollback();
         }
     }
 
@@ -60,6 +97,25 @@ public class ProducerRepository {
         }
     }
 
+    public static void updatePreparedStatement(Producer producer) {
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement ps = preparedStatementUpdate(conn, producer)) {
+            int rowsAffected = ps.executeUpdate();
+            log.info("Updated producer '{}', rows affected '{}' ", producer.getId(), rowsAffected);
+        } catch (SQLException e) {
+            log.error("Error while trying to update producer '{}'", producer.getId(), e);
+        }
+    }
+
+    private static PreparedStatement preparedStatementUpdate(Connection conn, Producer producer) throws SQLException {
+        String sql = "UPDATE public.producer SET \"name\"=? WHERE id=?;";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1, producer.getName());
+        ps.setInt(2, producer.getId());
+        return ps;
+    }
+
+
     public static List<Producer> findAll() {
         log.info("Finding all Producers");
         return ProducerRepository.findByName("");
@@ -85,6 +141,62 @@ public class ProducerRepository {
             log.error("Error while trying to find all producers", e);
         }
         return producers;
+    }
+
+    public static List<Producer> findByNamePreparedStatement(String name) {
+        log.info("Finding Producer by name");
+        List<Producer> producers = new ArrayList<>();
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement ps = preparedStatementFindByName(conn, name);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Producer producer = Producer
+                        .builder()
+                        .id(rs.getInt("id"))
+                        .name(rs.getString("name"))
+                        .build();
+                producers.add(producer);
+            }
+        } catch (SQLException e) {
+            log.error("Error while trying to find all producers", e);
+        }
+        return producers;
+    }
+
+    public static List<Producer> findByNameCallableStatement(String name) {
+        log.info("Finding Producer by name");
+        List<Producer> producers = new ArrayList<>();
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement ps = callableStatementFindByName(conn, name);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Producer producer = Producer
+                        .builder()
+                        .id(rs.getInt("id"))
+                        .name(rs.getString("name"))
+                        .build();
+                producers.add(producer);
+            }
+        } catch (SQLException e) {
+            log.error("Error while trying to find all producers", e);
+        }
+        return producers;
+    }
+
+    private static CallableStatement callableStatementFindByName(Connection conn, String name) throws SQLException {
+        String sql = "SELECT * FROM sp_get_producer_by_name(?);";
+        CallableStatement cs = conn.prepareCall(sql);
+        cs.setString(1, String.format("%%%s%%", name));
+        return cs;
+    }
+
+    private static PreparedStatement preparedStatementFindByName(Connection conn, String name) throws SQLException {
+        String sql = "SELECT * FROM public.producer where name like ?;";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1, String.format("%%%s%%", name));
+        return ps;
     }
 
     public static void showProducerMetaData() {
